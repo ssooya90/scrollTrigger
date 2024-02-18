@@ -2,67 +2,67 @@
 
 
 
-
-gsap.registerPlugin(ScrollTrigger);
-
-const container = document.querySelector('#container');
+const h2 = document.querySelector('.section02 h2');
 
 
-const options = {
-  
-    damping: 0.1,
-    alwaysShowTracks: true,
-    
-  
-}
-const scrollbar = Scrollbar.init(container, {
-  ...options
-});
 
-ScrollTrigger.scrollerProxy(container, {
-  scrollTop(value) {
-    if (arguments.length) {
-      scrollbar.scrollTop = value; // setter
+gsap.to(h2,{
+  x : 200,
+  scrollTrigger : {
+    trigger : '.section02',
+    start : '20% center',
+    end : '80% center',
+    markers : true,
+    scrub : true,
+    // onEnter : (e) => {
+    //   console.log('enter');
+    //   h2.textContent = 'enter';
+    // }, onLeave : (e) => {
+    //   console.log('leave')
+    //   h2.textContent = 'Leave';
+    //
+    // }, onEnterBack : (e) => {
+    //   console.log('enterBack')
+    //   h2.textContent = 'EnterBack';
+    // }, onLeaveBack : (e) => {
+    //   console.log('leaveBack')
+    //   h2.textContent = 'leaveBack';
+    // },
+
+    onToggle : (e) => {
+      console.log('toggle!')
+      console.log(e.direction)
+
+      if(e.direction == 1){
+
+        h2.style.color = 'red'
+      }else{
+        h2.style.color = 'blue'
+
+      }
+      // console.log(direction)
+    },
+
+    onRefresh : () => {
+      console.log("refresh")
+    },
+
+    onUpdate : (e) => {
+
+      const progress = e.progress;
+
+      let percentage = Math.round(progress * 100);
+
+      h2.textContent = `${percentage}%`
+
+
+
+
+
     }
-    return scrollbar.scrollTop; // getter
-  },
-});
-
-scrollbar.addListener(ScrollTrigger.update);
-ScrollTrigger.defaults({ scroller: container });
-
-
-
-
-
-
-
-
-
-
-
-
-
-function markers(){
-
-
-  if (document.querySelector('.gsap-marker-scroller-start')) {
-    const markers = gsap.utils.toArray('[class *= "gsap-marker"]');
-
-    scrollbar.addListener(({ offset }) => {
-      gsap.set(markers, { marginTop: -offset.y });
-    });
   }
 
-
-}
-
+})
 
 
-
-
-
-
-
-
-
+markers()
