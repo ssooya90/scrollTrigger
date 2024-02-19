@@ -1,80 +1,51 @@
 
 
 
-ScrollTrigger.create({
-	trigger : '.demo-text',
-	start : 'top bottom',
-	end : 'bottom center',
-	markers : true,
-	scrub : 1,
-	animation : gsap.from('.demo-text .text',{
-		x () {
-			return this.targets()[0].scrollWidth * -1
-		}
+
+gsap.from(".demo-text .text",{
+	x () {
+		return this.targets()[0].scrollWidth * -1
+	},
+	scrollTrigger : {
+		trigger : '.demo-text',
+		markers : true,
+		scrub: 1,
+	}
+})
+
+gsap.utils.toArray('.demo-gallery').forEach((section, index) => {
+
+	console.log(section.querySelector('.wrapper'))
+	let wrapper = section.querySelector('.wrapper');
+
+
+	const [x, xEnd] = index % 2 ? [-(wrapper.scrollWidth), '0'] : ['100%', -(wrapper.scrollWidth - innerWidth)]
+
+	let tween = gsap.fromTo(wrapper,
+			{x},
+			{x : xEnd}
+	)
+
+	ScrollTrigger.create({
+		trigger : section,
+		animation : tween,
+		scrub:1
 	})
+
+
 })
 
 
-gsap.utils.toArray('.demo-gallery').forEach((section , index) => {
+const text = document.querySelectorAll('.demo-text')[1]
+console.log(text)
 
-	const wrapper = section.querySelector('.wrapper')
-
-	console.log(index)
-	console.log(index % 2)
-
-
-	const [x,xEnd] = index % 2 ? [-(wrapper.scrollWidth), 0] : ['100%',-(wrapper.scrollWidth - innerWidth)]
-
-	console.log([x,xEnd])
-
-				gsap.fromTo(wrapper, {
-				x
-			},{
-				x:xEnd,
-				scrollTrigger: {
-					trigger : section,
-					scrub: 0.5
-				}
-			})
-
-
-	// if(even == 0){
-	//
-	// 	ScrollTrigger.create({
-	// 		trigger : section,
-	// 		animation :
-	// 				gsap.fromTo(wrapper,{
-	// 					x : '100%',
-	// 				}, {
-	// 					x () {
-	// 						return -(wrapper.scrollWidth - innerWidth)
-	// 					},
-	// 				})
-	// 		,
-	// 		scrub: 1,
-	// 	})
-	//
-	//
-	// }else{
-	//
-	// 	ScrollTrigger.create({
-	// 		trigger : section,
-	// 		animation :
-	// 				gsap.fromTo(wrapper,{
-	// 					x () {
-	// 						return -(wrapper.scrollWidth - innerWidth)
-	// 					},
-	// 				}, {
-	// 					x : 0
-	// 				})
-	// 		,
-	// 		scrub: 1,
-	//
-	// 	})
-	//
-	// }
-
-
-
-
+gsap.from(text.querySelector('.text'),{
+	x () {
+		return this.targets()[0].scrollWidth - innerWidth
+	},
+	scrollTrigger : {
+		trigger : text,
+		markers : true,
+		scrub: 1,
+	}
 })
