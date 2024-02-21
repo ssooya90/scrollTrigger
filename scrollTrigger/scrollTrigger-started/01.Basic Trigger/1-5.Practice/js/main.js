@@ -8,7 +8,6 @@ gsap.from(".demo-text .text",{
 	},
 	scrollTrigger : {
 		trigger : '.demo-text',
-		markers : true,
 		scrub: 1,
 	}
 })
@@ -39,13 +38,51 @@ gsap.utils.toArray('.demo-gallery').forEach((section, index) => {
 const text = document.querySelectorAll('.demo-text')[1]
 console.log(text)
 
-gsap.from(text.querySelector('.text'),{
+gsap.fromTo(text.querySelector('.text'),{
+	x: '100%',
+	// x () {
+	// 	return this.targets()[0].scrollWidth - innerWidth
+	// },
+},{
 	x () {
-		return this.targets()[0].scrollWidth - innerWidth
+		return -(this.targets()[0].scrollWidth - innerWidth)
 	},
-	scrollTrigger : {
-		trigger : text,
-		markers : true,
-		scrub: 1,
+	scrollTrigger:{
+		trigger:text,
+		scrub:0.5
 	}
 })
+
+
+console.log(`위너위드 ${innerWidth}`)
+
+const tl = gsap.timeline({
+	defaults : {
+		ease : 'none'
+	}
+})
+		.from('.awsome .text',{x:innerWidth})
+		.to('.awsome .text',{scale:50, xPercent:-50})
+		.to('body',{duration:0.3, backgroundColor:'black'},'-=0.5')
+
+ScrollTrigger.create({
+	trigger : '.awsome',
+	pin : true,
+	start : 'top top',
+	end : '+=3000',
+	animation: tl,
+	scrub : 0.5
+})
+
+
+const img = gsap.utils.toArray('img')
+const loader = document.querySelector('.loader--text')
+
+const updateProgress = (instance) => {
+	console.log(instance)
+	console.log(instance.progressedCount)
+	loader.textContent = `${Math.round(instance.progressedCount * 100 / img.length)}%`
+}
+
+imagesLoaded(img)
+		.on('progress',updateProgress)
