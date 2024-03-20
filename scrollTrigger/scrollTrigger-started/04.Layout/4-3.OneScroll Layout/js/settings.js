@@ -5,10 +5,6 @@ const sectionColors = ['#f2eee5','#e5c1c5','#c3e2dd','#6eceda','#FB9DA7','#FCCCD
 
 gsap.set('.section',{backgroundColor:gsap.utils.wrap(sectionColors)})
 
-
-
-
-
 gsap.utils.toArray('.section').forEach((item,index)=>{
 
   let h2 = `
@@ -23,7 +19,7 @@ gsap.utils.toArray('.section').forEach((item,index)=>{
 
 // gsap.registerPlugin(ScrollTrigger);
 
-// const container = document.querySelector('#container');
+const container = document.querySelector('#container');
 
 // const options = { damping: 0.1, }
 
