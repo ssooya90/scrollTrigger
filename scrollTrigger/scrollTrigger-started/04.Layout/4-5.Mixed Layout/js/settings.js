@@ -38,6 +38,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 
+class DisableScroll extends Scrollbar.ScrollbarPlugin{
+
+  static pluginName = 'DisableScroll'
+
+  transfromDelta(delta) {
+    delta['x'] = 0;
+
+    return delta
+  }
+}
+
+Scrollbar.use(DisableScroll);
 
 
 const container = document.querySelector('#container');
@@ -51,6 +63,7 @@ const scrollbar = Scrollbar.init(container, {
 });
 
 
+// x스크롤을 삭제하겠다
 scrollbar.track.xAxis.element.remove();
 
 
